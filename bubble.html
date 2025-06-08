@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bubble Game</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #e3f2fd;
+        min-height: 100vh;
+      }
+      .main {
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .top {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+        padding: 20px;
+        background-color: #1976d2;
+        color: white;
+      }
+      .top .info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 10px;
+      }
+      .top p {
+        background-color: white;
+        color: black;
+        padding: 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        width: 50px;
+        text-align: center;
+      }
+      .top .controls {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      button,
+      select {
+        padding: 8px 16px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+      }
+      button {
+        background-color: #fff;
+        color: #1976d2;
+      }
+      button:hover {
+        background-color: #e3f2fd;
+      }
+      .buttom {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        gap: 10px;
+        padding: 20px;
+        justify-items: center;
+      }
+      .bubbol {
+        height: 60px;
+        width: 60px;
+        background-color: #4dd0e1;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: bold;
+        color: #fff;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .bubbol:hover {
+        background-color: #00796b;
+      }
+      h1 {
+        text-align: center;
+        color: #d32f2f;
+      }
+      .buttom.gameover {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: 200px;
+        flex-direction: column;
+        padding: 20px;
+      }
+      @media (max-width: 768px) {
+        .top {
+          justify-content: center;
+        }
+        .top .controls {
+          width: 100%;
+          justify-content: center;
+        }
+        .bubbol {
+          height: 45px;
+          width: 45px;
+          font-size: 16px;
+        }
+        .buttom {
+          grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+          gap: 8px;
+          padding: 15px;
+        }
+        button,
+        select {
+          font-size: 14px;
+          padding: 6px 12px;
+        }
+        .top p {
+          width: 40px;
+          font-size: 14px;
+          padding: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header style="text-align: center; padding: 20px; background: #f0f0f0">
+      <h1 style="font-size: 2.2rem; color: teal">🧠 बबल गेम चैलेंज 🎯</h1>
+      <p style="max-width: 700px; margin: 10px auto; font-size: 1rem; color: #333">
+        यह एक सरल लेकिन मजेदार रिएक्शन गेम है। आपको नीचे दिखाए गए नंबर वाले बबल्स में से उस नंबर पर क्लिक करना है जो "Hit" सेक्शन में दिख रहा है।<br /><br />
+        <strong>नियम:</strong><br />
+        1. सही बबल पर क्लिक करें <br />
+        2. हर सही क्लिक पर आपको 10 अंक मिलेंगे <br />
+        3. टाइम खत्म होने से पहले जितना हो सके उतने सही बबल हिट करें <br />
+        4. गलत क्लिक पर कोई पेनल्टी नहीं है – पर समय बर्बाद होता है!
+      </p>
+    </header>
+
+    <div class="main">
+      <div class="top">
+        <div class="info">
+          <h2>🎯 Hit:</h2>
+          <p class="hitnumber">-</p>
+        </div>
+        <div class="info">
+          <h2>⏱️ Timer:</h2>
+          <p class="timerval">60</p>
+        </div>
+        <div class="info">
+          <h2>🏆 Score:</h2>
+          <p class="scoreval">0</p>
+        </div>
+        <div class="controls">
+          <button class="start-button">▶️ Start</button>
+          <select class="mode">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+      </div>
+      <div class="buttom"></div>
+    </div>
+
+    <footer style="margin-top: 40px; background: #222; color: #fff; text-align: center; padding: 20px">
+      <p style="font-size: 1rem">
+        © 2025 | Developed with ❤️ by <strong>Tanveer Ahmed</strong>
+      </p>
+      <div style="margin-top: 10px">
+        <a href="https://github.com/tanveerahmed9413" target="_blank" style="color: #fff; margin: 0 10px; text-decoration: none">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="https://www.instagram.com/tanveer.ahmed.9413/#" target="_blank" style="color: #fff; margin: 0 10px; text-decoration: none">
+          <i class="fab fa-instagram"></i> Instagram
+        </a>
+        <a href="mailto:tanveerahmed4872.com" style="color: #fff; margin: 0 10px; text-decoration: none">
+          <i class="fas fa-envelope"></i> Email
+        </a>
+      </div>
+    </footer>
+
+    <script>
+      const modeSetting = {
+        easy: { time: 60, bubbles: 100, maxNumber: 10 },
+        medium: { time: 45, bubbles: 80, maxNumber: 50 },
+        hard: { time: 30, bubbles: 60, maxNumber: 100 },
+      };
+
+      let currentBubbleCount = 100;
+      let currentMaxNumber = 10;
+      let timer = 60;
+      let score = 0;
+      let hitrn = 0;
+      let timerId;
+
+      const startbtn = document.querySelector(".start-button");
+      startbtn.addEventListener("click", () => {
+        const selectMode = document.querySelector(".mode").value;
+        const setting = modeSetting[selectMode];
+
+        timer = setting.time;
+        score = 0;
+        currentBubbleCount = setting.bubbles;
+        currentMaxNumber = setting.maxNumber;
+
+        document.querySelector(".scoreval").innerHTML = score;
+        runTimer();
+        hitnumber();
+        makebubbol(currentBubbleCount);
+        document.querySelector(".buttom").classList.remove("gameover");
+      });
+
+      function makebubbol(count) {
+        let box = "";
+        for (let i = 1; i <= count; i++) {
+          const random = Math.floor(Math.random() * currentMaxNumber) + 1;
+          box += `<div class="bubbol">${random}</div>`;
+        }
+        document.querySelector(".buttom").innerHTML = box;
+      }
+
+      function increaseScore() {
+        score += 10;
+        document.querySelector(".scoreval").innerHTML = score;
+      }
+
+      document.querySelector(".buttom").addEventListener("click", function (e) {
+        const bubbolValue = Number(e.target.innerHTML);
+        if (bubbolValue === hitrn) {
+          increaseScore();
+          hitnumber();
+          makebubbol(currentBubbleCount);
+        }
+      });
+
+      function runTimer() {
+        clearInterval(timerId);
+        timerId = setInterval(() => {
+          if (timer > 0) {
+            timer--;
+            document.querySelector(".timerval").innerHTML = timer;
+          } else {
+            clearInterval(timerId);
+            document.querySelector(".buttom").classList.add("gameover");
+            document.querySelector(".buttom").innerHTML = `<h1>\uD83D\uDC80 गेम समाप्त!<br>आपका स्कोर: ${score} \uD83D\uDDB9️</h1>`;
+          }
+        }, 1000);
+      }
+
+      function hitnumber() {
+        hitrn = Math.floor(Math.random() * 10) + 1;
+        document.querySelector(".hitnumber").innerHTML = hitrn;
+      }
+    </script>
+  </body>
+</html>
